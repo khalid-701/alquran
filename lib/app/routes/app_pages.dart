@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_ayat/bindings/detail_ayat_binding.dart';
+import '../modules/detail_ayat/views/detail_ayat_view.dart';
 import '../modules/detail_surah/bindings/detail_surah_binding.dart';
 import '../modules/detail_surah/views/detail_surah_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.DETAIL_SURAH,
       page: () => const DetailSurahView(),
       binding: DetailSurahBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_AYAT,
+      page: () => const DetailAyatView(),
+      binding: DetailAyatBinding(),
     ),
   ];
 }

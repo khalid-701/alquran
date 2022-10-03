@@ -1,3 +1,4 @@
+import 'package:alquran/app/cosntants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class IntroductionView extends GetView<IntroductionController> {
             child: Text(
               "Sesibuk itukah kamu sampai tidak membacaku ?",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16,),
             ),
           ),
           const SizedBox(
@@ -41,9 +42,12 @@ class IntroductionView extends GetView<IntroductionController> {
           const SizedBox(
             height: 30,
           ),
-          ElevatedButton(onPressed: (){
-            Get.offAllNamed(Routes.HOME);
-          }, child: const Text("MULAI")),
+          ElevatedButton(
+              onPressed: () {
+                Get.offAllNamed(Routes.HOME);
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Get.isDarkMode ? appDarkColor : appLightColor),
+              child: const Text("MULAI")),
         ],
       )),
     );

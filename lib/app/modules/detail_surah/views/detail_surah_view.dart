@@ -15,7 +15,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
     Surah surah = Get.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text(surah.name.transliteration.id.toUpperCase()),
+          title: Text("${surah.name?.transliteration?.id?.toUpperCase()}"),
           centerTitle: true,
         ),
         body: ListView(
@@ -27,12 +27,12 @@ class DetailSurahView extends GetView<DetailSurahController> {
                 child: Column(
                   children: [
                     Text(
-                      surah.name.transliteration.id.toUpperCase(),
+                      "${surah.name?.transliteration?.id?.toUpperCase()}",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "( ${surah.name.translation.id.toUpperCase()} )",
+                      "( ${surah.name?.translation?.id?.toUpperCase()} )",
                       style: const TextStyle(
                           fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -40,7 +40,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                       height: 10,
                     ),
                     Text(
-                      "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                      "${surah.numberOfVerses} Ayat | ${surah.revelation?.id}",
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -63,81 +63,78 @@ class DetailSurahView extends GetView<DetailSurahController> {
                   if (!snapshot.hasData) {
                     return const Center(child: Text("Tidak ada data"));
                   }
-                  return Expanded(
-                    flex: 1,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data?.verses.length,
-                        itemBuilder: (context, index) {
-                          if (snapshot.data?.verses.length == 0) {
-                            return const SizedBox();
-                          }
-                          detailSurah.Verse? ayat =
-                              snapshot.data?.verses[index];
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text("${index + 1}"),
-                                      ),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(Icons
-                                                  .bookmark_add_outlined)),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                  Icons.play_arrow)),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data?.verses?.length,
+                      itemBuilder: (context, index) {
+                        if (snapshot.data?.verses?.length == 0) {
+                          return const SizedBox();
+                        }
+                        detailSurah.Verse? ayat =
+                            snapshot.data?.verses?[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CircleAvatar(
+                                      child: Text("${index + 1}"),
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons
+                                                .bookmark_add_outlined)),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.play_arrow)),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "${ayat?.text.arab}",
-                                style: const TextStyle(fontSize: 25),
-                                textAlign: TextAlign.end,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "${ayat?.text.transliteration.en}",
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontStyle: FontStyle.italic),
-                                textAlign: TextAlign.end,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "${ayat?.translation.id}",
-                                style: const TextStyle(fontSize: 16),
-                                textAlign: TextAlign.justify,
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                            ],
-                          );
-                        }),
-                  );
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "${ayat?.text?.arab}",
+                              style: const TextStyle(fontSize: 25),
+                              textAlign: TextAlign.end,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "${ayat?.text?.transliteration?.en}",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic),
+                              textAlign: TextAlign.end,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "${ayat?.translation?.id}",
+                              style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.justify,
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                          ],
+                        );
+                      });
                 })
           ],
         ));
