@@ -13,6 +13,7 @@ void main() {
       initialRoute: Routes.INTRODUCTION,
       getPages: AppPages.routes,
       theme: appLight,
+      darkTheme: appDark,
     ),
   );
 }

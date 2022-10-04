@@ -76,30 +76,47 @@ class DetailSurahView extends GetView<DetailSurahController> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CircleAvatar(
-                                      child: Text("${index + 1}"),
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(Icons
-                                                .bookmark_add_outlined)),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                                Icons.play_arrow)),
-                                      ],
-                                    )
-                                  ],
+                            GestureDetector(
+                              onTap: () => Get.defaultDialog(),
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CircleAvatar(
+                                        child: Text("${index + 1}"),
+                                      ),
+
+                                      Container(
+                                        height: 35,
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    controller.isDarkMode.isTrue
+                                                        ? "assets/images/list_dark.png"
+                                                        : "assets/images/list2.png"))),
+                                        child: Center(
+                                          child: Text(surah.number.toString()),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(Icons
+                                                  .bookmark_add_outlined)),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                  Icons.play_arrow)),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

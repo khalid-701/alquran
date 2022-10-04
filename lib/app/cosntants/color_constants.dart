@@ -5,6 +5,7 @@ const appDarkColor = Color(0xff06283D);
 
 
 ThemeData appLight = ThemeData(
+  brightness: Brightness.light,
   primaryColor: appLightColor,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
@@ -17,13 +18,29 @@ ThemeData appLight = ThemeData(
     bodyText2:  TextStyle(
         color: Colors.black
     ),
+  ),
+  listTileTheme: const ListTileThemeData(
+    textColor: Colors.black
   )
 );
 
 ThemeData appDark = ThemeData(
+
+    brightness: Brightness.dark,
     primaryColor: appDarkColor,
     scaffoldBackgroundColor: appDarkColor,
     appBarTheme: const AppBarTheme(
         backgroundColor: appDarkColor
+    ),
+    textTheme: const TextTheme(
+      bodyText1:  TextStyle(
+          color: Colors.white
+      ),
+      bodyText2:  TextStyle(
+          color: Colors.white
+      ),
+    ),
+    listTileTheme: const ListTileThemeData(
+        textColor: Colors.white
     )
 );
