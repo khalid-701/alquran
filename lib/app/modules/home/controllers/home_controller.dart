@@ -10,6 +10,7 @@ import '../../../data/models/juz/juz.dart';
 class HomeController extends GetxController {
   var isDarkMode = false.obs;
 
+  List<Surah> getSurah=[];
   Future<List<Surah>> getAllSurah() async {
     Uri url = Uri.parse("https://api.quran.gading.dev/surah");
     var res = await http.get(url);
@@ -19,7 +20,8 @@ class HomeController extends GetxController {
     if (data == null || data.isEmpty) {
       return [];
     } else {
-      return data.map((e) => Surah.fromJson(e)).toList();
+      getSurah = data.map((e) => Surah.fromJson(e)).toList();
+      return getSurah;
     }
   }
 

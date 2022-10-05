@@ -208,9 +208,36 @@ class HomeView extends GetView<HomeController> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               juz.Juz detailJuz = snapshot.data![index];
+
+                              String nameStart = detailJuz.juzStartInfo?.split(" - ").first ?? "";
+                              String nameEnd = detailJuz.juzEndInfo?.split(" - ").first ?? "";
+
+                              List<Surah> rawAllSurahInJuz = [];
+                              List<Surah> allSurahInJuz = [];
+
+
+                              for(Surah item in controller.getSurah) {
+                                rawAllSurahInJuz.add(item);
+                                if(item.name!.transliteration!.id == nameEnd) {
+                                  break;
+                                }
+                              }
+
+                              for(Surah item in rawAllSurahInJuz.reversed.toList()) {
+                                allSurahInJuz.add(item);
+                                if(item.name!.transliteration!.id == nameStart) {
+                                  break;
+                                }
+                              }
+
                               return Obx(() {
                                 return ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.toNamed(Routes.DETAIL_JUZ, arguments: {
+                                      "juz" : detailJuz,
+                                      "surah" : allSurahInJuz.reversed.toList(),
+                                    });
+                                  },
                                   leading: Container(
                                     height: 35,
                                     width: 35,
