@@ -9,7 +9,7 @@ ThemeData appLight = ThemeData(
   primaryColor: appLightColor,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
-    backgroundColor: appLightColor
+    backgroundColor: appLightColor, elevation: 0
   ),
   textTheme: const TextTheme(
     bodyText1:  TextStyle(
@@ -21,7 +21,8 @@ ThemeData appLight = ThemeData(
   ),
   listTileTheme: const ListTileThemeData(
     textColor: Colors.black
-  )
+  ),
+
 );
 
 ThemeData appDark = ThemeData(
@@ -30,7 +31,7 @@ ThemeData appDark = ThemeData(
     primaryColor: appDarkColor,
     scaffoldBackgroundColor: appDarkColor,
     appBarTheme: const AppBarTheme(
-        backgroundColor: appDarkColor
+        backgroundColor: appDarkColor,  elevation: 0
     ),
     textTheme: const TextTheme(
       bodyText1:  TextStyle(

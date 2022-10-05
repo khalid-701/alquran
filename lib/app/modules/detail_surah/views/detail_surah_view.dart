@@ -15,37 +15,63 @@ class DetailSurahView extends GetView<DetailSurahController> {
     Surah surah = Get.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text("${surah.name?.transliteration?.id?.toUpperCase()}"),
+          iconTheme: IconThemeData(
+            color: Get.isDarkMode ? Colors.white:Colors.black, //change your color here
+          ),
+          title: Text("${surah.name?.transliteration?.id?.toUpperCase()}", style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),),
           centerTitle: true,
         ),
         body: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(
-                      "${surah.name?.transliteration?.id?.toUpperCase()}",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "( ${surah.name?.translation?.id?.toUpperCase()} )",
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "${surah.numberOfVerses} Ayat | ${surah.revelation?.id}",
-                      style: const TextStyle(
-                        fontSize: 16,
+            GestureDetector(
+              onTap: () => Get.defaultDialog(
+                  contentPadding: const EdgeInsets.all(10),
+                  title: "Tafsir ${surah.name?.transliteration?.id}",
+                  content: Text(
+                    surah.tafsir?.id ?? "Tidak ada tafsir",
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w400),
+                  )),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: Get.isDarkMode ? const LinearGradient(
+                        colors: [Colors.black12, Colors.black]) : const LinearGradient(
+                        colors: [Colors.greenAccent, Colors.green])),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${surah.name?.transliteration?.id?.toUpperCase()}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Get.isDarkMode ? Colors.white : Colors.black),
                       ),
-                    ),
-                  ],
+                      Text(
+                        "( ${surah.name?.translation?.id?.toUpperCase()} )",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Get.isDarkMode ? Colors.white : Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "${surah.numberOfVerses} Ayat | ${surah.revelation?.id}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color:
+                                Get.isDarkMode ? Colors.white : Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -71,52 +97,44 @@ class DetailSurahView extends GetView<DetailSurahController> {
                         if (snapshot.data?.verses?.length == 0) {
                           return const SizedBox();
                         }
-                        detailSurah.Verse? ayat =
-                            snapshot.data?.verses?[index];
+                        detailSurah.Verse? ayat = snapshot.data?.verses?[index];
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              onTap: () => Get.defaultDialog(),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CircleAvatar(
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.isDarkMode ? Colors.black38 : Colors.grey[100] ),
+
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(Get.isDarkMode
+                                                  ? "assets/images/list_dark.png"
+                                                  : "assets/images/list2.png"))),
+                                      child: Center(
                                         child: Text("${index + 1}"),
                                       ),
-
-                                      Container(
-                                        height: 35,
-                                        width: 35,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    controller.isDarkMode.isTrue
-                                                        ? "assets/images/list_dark.png"
-                                                        : "assets/images/list2.png"))),
-                                        child: Center(
-                                          child: Text(surah.number.toString()),
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(Icons
-                                                  .bookmark_add_outlined)),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                  Icons.play_arrow)),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.bookmark_add_outlined)),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.play_arrow)),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -134,8 +152,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             Text(
                               "${ayat?.text?.transliteration?.en}",
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic),
+                                  fontSize: 18, fontStyle: FontStyle.italic),
                               textAlign: TextAlign.end,
                             ),
                             const SizedBox(
