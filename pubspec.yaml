@@ -10,7 +10,9 @@ dependencies:
   get: 4.6.5
   http: 0.13.5
   lottie: 1.4.3
-  flutter: 
+  get_storage: ^2.0.3
+  just_audio: ^0.9.29
+  flutter:
     sdk: flutter
 
 dev_dependencies: 

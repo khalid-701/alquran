@@ -32,9 +32,7 @@ class HomeView extends GetView<HomeController> {
           Obx(() {
             return IconButton(
                 onPressed: () {
-                  Get.isDarkMode ? Get.changeTheme(appLight) : Get.changeTheme(
-                      appDark);
-                  controller.isDarkMode.toggle();
+                  controller.changeTheme();
                 }
                 ,
                 icon: Icon(Icons.color_lens,

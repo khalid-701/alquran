@@ -55,7 +55,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_JUZ,
-      page: () => const DetailJuzView(),
+      page: () =>  DetailJuzView(),
       binding: DetailJuzBinding(),
     ),
   ];

@@ -13,9 +13,6 @@ class DetailJuzView extends GetView<DetailJuzController> {
   Widget build(BuildContext context) {
     final juz.Juz detailJuz = Get.arguments['juz'];
     final List<Surah> allSurahInJuz = Get.arguments['surah'];
-    allSurahInJuz.forEach((element) {
-      print(element.name!.transliteration!.id);
-    });
     return Scaffold(
         appBar: AppBar(
           title: Text('JUZ ${detailJuz.juz}',
@@ -45,87 +42,139 @@ class DetailJuzView extends GetView<DetailJuzController> {
               }
             }
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:
-                          Get.isDarkMode ? Colors.black38 : Colors.grey[100]),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 35,
-                              width: 35,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(Get.isDarkMode
-                                          ? "assets/images/list_dark.png"
-                                          : "assets/images/list2.png"))),
-                              child: Center(
-                                child: Text("${ayat.number?.inSurah}"),
+                 if (ayat.number?.inSurah == 1)
+                   Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.defaultDialog(
+                          contentPadding: const EdgeInsets.all(10),
+                          title: "Tafsir ${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                          content: Text(
+                            allSurahInJuz.first.tafsir?.id ?? "Tidak ada tafsir",
+                            textAlign: TextAlign.justify,
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          )),
+                      child: Container(
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: Get.isDarkMode ? const LinearGradient(
+                                colors: [Colors.black12, Colors.black]) : const LinearGradient(
+                                colors: [Colors.greenAccent, Colors.green])),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            children: [
+                              Text(
+                                "${allSurahInJuz[controller.index].name?.transliteration?.id?.toUpperCase()}",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                    Get.isDarkMode ? Colors.white : Colors.black),
                               ),
+                              Text(
+                                "( ${allSurahInJuz[controller.index].name?.translation?.id?.toUpperCase()} )",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                    Get.isDarkMode ? Colors.white : Colors.black),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color:
+                              Get.isDarkMode ? Colors.black38 : Colors.grey[100]),
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  height: 35,
+                                  width: 35,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(Get.isDarkMode
+                                              ? "assets/images/list_dark.png"
+                                              : "assets/images/list2.png"))),
+                                  child: Center(
+                                    child: Text("${ayat.number?.inSurah}"),
+                                  ),
+                                ),
+
+                                  Text(
+                                    "${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                                    style: const TextStyle(
+                                        fontStyle: FontStyle.italic, fontSize: 16),
+                                  )
+                              ],
                             ),
-                            Text(
-                              allSurahInJuz[controller.index]
-                                      .name
-                                      ?.transliteration
-                                      ?.id ??
-                                  "",
-                              style: const TextStyle(
-                                  fontStyle: FontStyle.italic, fontSize: 16),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.bookmark_add_outlined)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.play_arrow)),
+                              ],
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.bookmark_add_outlined)),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.play_arrow)),
-                          ],
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "${ayat.text?.arab}",
-                  style: const TextStyle(fontSize: 25),
-                  textAlign: TextAlign.end,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "${ayat.text?.transliteration?.en}",
-                  style: const TextStyle(
-                      fontSize: 18, fontStyle: FontStyle.italic),
-                  textAlign: TextAlign.end,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "${ayat.translation?.id}",
-                  style: const TextStyle(fontSize: 16),
-                  textAlign: TextAlign.justify,
-                ),
-                const SizedBox(
-                  height: 40,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${ayat.text?.arab}",
+                      style: const TextStyle(fontSize: 25),
+                      textAlign: TextAlign.end,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${ayat.text?.transliteration?.en}",
+                      style: const TextStyle(
+                          fontSize: 18, fontStyle: FontStyle.italic),
+                      textAlign: TextAlign.end,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${ayat.translation?.id}",
+                      style: const TextStyle(fontSize: 16),
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
                 ),
               ],
             );

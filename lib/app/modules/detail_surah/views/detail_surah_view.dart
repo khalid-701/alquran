@@ -16,9 +16,15 @@ class DetailSurahView extends GetView<DetailSurahController> {
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: Get.isDarkMode ? Colors.white:Colors.black, //change your color here
+            color: Get.isDarkMode
+                ? Colors.white
+                : Colors.black, //change your color here
           ),
-          title: Text("${surah.name?.transliteration?.id?.toUpperCase()}", style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),),
+          title: Text(
+            "${surah.name?.transliteration?.id?.toUpperCase()}",
+            style:
+                TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),
+          ),
           centerTitle: true,
         ),
         body: ListView(
@@ -37,9 +43,11 @@ class DetailSurahView extends GetView<DetailSurahController> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    gradient: Get.isDarkMode ? const LinearGradient(
-                        colors: [Colors.black12, Colors.black]) : const LinearGradient(
-                        colors: [Colors.greenAccent, Colors.green])),
+                    gradient: Get.isDarkMode
+                        ? const LinearGradient(
+                            colors: [Colors.black12, Colors.black])
+                        : const LinearGradient(
+                            colors: [Colors.greenAccent, Colors.green])),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -70,14 +78,49 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             color:
                                 Get.isDarkMode ? Colors.white : Colors.black),
                       ),
+
                     ],
                   ),
                 ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
+
+            if(surah.number != 1)
+              Column(
+                children: [
+                  Text(
+                    "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color:
+                        Get.isDarkMode ? Colors.white : Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Bismillaahir Rahmaanir Raheem",
+                    style: TextStyle(
+                        fontSize: 18, fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.end,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                    "Dengan nama Allah Yang Pengasih, Maha Penyayang.",
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
             FutureBuilder<detailSurah.DetailSurah>(
                 future: controller.detailSurah(surah.number.toString()),
                 builder: (context, snapshot) {
@@ -102,8 +145,11 @@ class DetailSurahView extends GetView<DetailSurahController> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.isDarkMode ? Colors.black38 : Colors.grey[100] ),
-
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Get.isDarkMode
+                                      ? Colors.black38
+                                      : Colors.grey[100]),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
@@ -130,7 +176,10 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                             icon: const Icon(
                                                 Icons.bookmark_add_outlined)),
                                         IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              controller.playAudio("${ayat?.audio?.primary}");
+
+                                            },
                                             icon: const Icon(Icons.play_arrow)),
                                       ],
                                     )
@@ -164,7 +213,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                               textAlign: TextAlign.justify,
                             ),
                             const SizedBox(
-                              height: 40,
+                              height: 20,
                             ),
                           ],
                         );
