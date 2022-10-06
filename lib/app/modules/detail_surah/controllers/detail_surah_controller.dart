@@ -23,21 +23,22 @@ class DetailSurahController extends GetxController {
         await player.setUrl(url);
         await player.play();
       } on PlayerException catch (e) {
-        print("Error code: ${e.code}");
-        print("Error message: ${e.message}");
+        Get.defaultDialog(
+            title: "Terjadi Kesalahan.", middleText: "${e.message}");
       } on PlayerInterruptedException catch (e) {
-        print("Connection aborted: ${e.message}");
+        Get.defaultDialog(
+            title: "Terjadi Kesalahan.", middleText: "${e.message}");
       } catch (e) {
         // Fallback for all other errors
-        print('An error occured: $e');
+        Get.defaultDialog(
+            title: "Terjadi Kesalahan.", middleText: "${e}");
       }
       player.playbackEventStream.listen((event) {},
           onError: (Object e, StackTrace st) {
         if (e is PlayerException) {
-          print('Error code: ${e.code}');
-          print('Error message: ${e.message}');
+          Get.defaultDialog(
+              title: "Terjadi Kesalahan.", middleText: "${e.message}");
         } else {
-          print('An error occurred: $e');
         }
       });
     } else {
