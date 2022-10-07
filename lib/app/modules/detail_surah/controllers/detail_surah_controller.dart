@@ -6,7 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 
 class DetailSurahController extends GetxController {
+
+  // RxString kodisiAudio = "stop".obs;
   final player = AudioPlayer();
+
+  Verse? lastVerse;
 
   Future<DetailSurah> detailSurah(String id) async {
     Uri url = Uri.parse("https://api.quran.gading.dev/surah/$id");
@@ -17,11 +21,26 @@ class DetailSurahController extends GetxController {
     return DetailSurah.fromJson(data);
   }
 
-  void playAudio(String url) async {
-    if (url != null) {
+  void playAudio(Verse ayat) async {
+    if (ayat.audio?.primary != null) {
       try {
-        await player.setUrl(url);
+        lastVerse ??= ayat;
+        lastVerse!.kondisiAudio = "stop";
+        lastVerse = ayat;
+        lastVerse!.kondisiAudio = "stop";
+        update();
+
+
+        await player.stop();
+        await player.setUrl(ayat.audio!.primary!);
+        ayat.kondisiAudio ="playing";
+        update();
         await player.play();
+        ayat.kondisiAudio ="stop";
+        update();
+        await player.stop();
+
+
       } on PlayerException catch (e) {
         Get.defaultDialog(
             title: "Terjadi Kesalahan.", middleText: "${e.message}");
@@ -44,6 +63,62 @@ class DetailSurahController extends GetxController {
     } else {
       Get.defaultDialog(
           title: "Terjadi Kesalahan.", middleText: "URL Audio tidak ada.");
+    }
+  }
+  void pauseAudio(Verse ayat) async {
+    try {
+      await player.pause();
+      ayat.kondisiAudio  ="pause";
+      update();
+    } on PlayerException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } catch (e) {
+      // Fallback for all other errors
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e}");
+    }
+  }
+  void resumeAudio(Verse ayat) async {
+    try {
+
+      ayat.kondisiAudio  ="playing";
+      update();
+      await player.play();
+      ayat.kondisiAudio  ="stop";
+      update();
+    } on PlayerException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } catch (e) {
+      // Fallback for all other errors
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e}");
+    }
+  }
+  void stopAudio(Verse ayat) async {
+    try {
+
+      ayat.kondisiAudio ="stop";
+      update();
+      await player.stop();
+
+    } on PlayerException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e.message}");
+    } catch (e) {
+      // Fallback for all other errors
+      Get.defaultDialog(
+          title: "Terjadi Kesalahan.", middleText: "${e}");
     }
   }
 

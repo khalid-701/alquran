@@ -46,6 +46,7 @@ class HomeController extends GetxController {
       Uri url = Uri.parse("https://api.quran.gading.dev/juz/$i");
       var res = await http.get(url);
 
+
       Map<String, dynamic> data =
           (json.decode(res.body) as Map<String, dynamic>)["data"];
       Juz juz = Juz.fromJson(data);

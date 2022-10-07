@@ -213,7 +213,8 @@ class HomeView extends GetView<HomeController> {
                               List<Surah> rawAllSurahInJuz = [];
                               List<Surah> allSurahInJuz = [];
 
-
+                              print("${detailJuz.verses?[index].kondisiAudio}")
+;
                               for(Surah item in controller.getSurah) {
                                 rawAllSurahInJuz.add(item);
                                 if(item.name!.transliteration!.id == nameEnd) {

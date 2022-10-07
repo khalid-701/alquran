@@ -25,160 +25,193 @@ class DetailJuzView extends GetView<DetailJuzController> {
           ),
           centerTitle: true,
         ),
-        body: ListView.builder(
-          padding: const EdgeInsets.all(20),
-          itemCount: detailJuz.verses!.length,
-          itemBuilder: (context, index) {
-            if (detailJuz.verses?.length == 0 || detailJuz.verses == null) {
-              return const Center(
-                child: Text("Tidak ada data."),
-              );
-            }
-            juz.Verses ayat = detailJuz.verses![index];
+        body: ListView(
+          children: [
+            ListView.builder(
+              padding: const EdgeInsets.all(20),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: detailJuz.verses!.length,
+              itemBuilder: (context, index) {
+                if (detailJuz.verses?.length == 0 || detailJuz.verses == null) {
+                  return const Center(
+                    child: Text("Tidak ada data."),
+                  );
+                }
+                juz.Verses ayat = detailJuz.verses![index];
+         detailJuz.verses?[index].kondisiAudio = "stop";
 
-            if (index != 0) {
-              if (ayat.number?.inSurah == 1) {
-                controller.index++;
-              }
-            }
-            return Column(
-              children: [
-                 if (ayat.number?.inSurah == 1)
-                   Column(
+                if (index != 0) {
+                  if (ayat.number?.inSurah == 1) {
+                    controller.index++;
+                  }
+                }
+                return Column(
                   children: [
-                    GestureDetector(
-                      onTap: () => Get.defaultDialog(
-                          contentPadding: const EdgeInsets.all(10),
-                          title: "Tafsir ${allSurahInJuz[controller.index].name?.transliteration?.id}",
-                          content: Text(
-                            allSurahInJuz.first.tafsir?.id ?? "Tidak ada tafsir",
-                            textAlign: TextAlign.justify,
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400),
-                          )),
-                      child: Container(
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: Get.isDarkMode ? const LinearGradient(
-                                colors: [Colors.black12, Colors.black]) : const LinearGradient(
-                                colors: [Colors.greenAccent, Colors.green])),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            children: [
-                              Text(
-                                "${allSurahInJuz[controller.index].name?.transliteration?.id?.toUpperCase()}",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                    Get.isDarkMode ? Colors.white : Colors.black),
-                              ),
-                              Text(
-                                "( ${allSurahInJuz[controller.index].name?.translation?.id?.toUpperCase()} )",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                    Get.isDarkMode ? Colors.white : Colors.black),
-                              ),
+                     if (ayat.number?.inSurah == 1)
+                       Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Get.defaultDialog(
+                              contentPadding: const EdgeInsets.all(10),
+                              title: "Tafsir ${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                              content: Text(
+                                allSurahInJuz.first.tafsir?.id ?? "Tidak ada tafsir",
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              )),
+                          child: Container(
+                            width: Get.width,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: Get.isDarkMode ? const LinearGradient(
+                                    colors: [Colors.black12, Colors.black]) : const LinearGradient(
+                                    colors: [Colors.greenAccent, Colors.green])),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${allSurahInJuz[controller.index].name?.transliteration?.id?.toUpperCase()}",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                        Get.isDarkMode ? Colors.white : Colors.black),
+                                  ),
+                                  Text(
+                                    "( ${allSurahInJuz[controller.index].name?.translation?.id?.toUpperCase()} )",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                        Get.isDarkMode ? Colors.white : Colors.black),
+                                  ),
 
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color:
-                              Get.isDarkMode ? Colors.black38 : Colors.grey[100]),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color:
+                                  Get.isDarkMode ? Colors.black38 : Colors.grey[100]),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  height: 35,
-                                  width: 35,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(Get.isDarkMode
-                                              ? "assets/images/list_dark.png"
-                                              : "assets/images/list2.png"))),
-                                  child: Center(
-                                    child: Text("${ayat.number?.inSurah}"),
-                                  ),
-                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 10),
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(Get.isDarkMode
+                                                  ? "assets/images/list_dark.png"
+                                                  : "assets/images/list2.png"))),
+                                      child: Center(
+                                        child: Text("${ayat.number?.inSurah}"),
+                                      ),
+                                    ),
 
-                                  Text(
-                                    "${allSurahInJuz[controller.index].name?.transliteration?.id}",
-                                    style: const TextStyle(
-                                        fontStyle: FontStyle.italic, fontSize: 16),
-                                  )
+                                      Text(
+                                        "${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                                        style: const TextStyle(
+                                            fontStyle: FontStyle.italic, fontSize: 16),
+                                      )
+                                  ],
+                                ),
+                                GetBuilder<DetailJuzController>(builder: (c) => Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                            Icons.bookmark_add_outlined)),
+                                    (ayat.kondisiAudio == "stop") ? IconButton(
+                                        onPressed: () {
+                                          c.playAudio(ayat);
+                                        },
+                                        icon: const Icon(
+                                            Icons.play_arrow)) :
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        (ayat.kondisiAudio == "playing") ? IconButton(
+                                            onPressed: () {
+                                              c.pauseAudio(ayat);
+                                            },
+                                            icon: const Icon(
+                                                Icons.pause)) : IconButton(
+                                            onPressed: () {
+                                              c.resumeAudio(ayat);
+                                            },
+                                            icon: const Icon(
+                                                Icons.play_arrow)),
+                                        IconButton(
+                                            onPressed: () {
+                                              c.stopAudio(ayat);
+                                            },
+                                            icon: const Icon(
+                                                Icons.stop))
+                                      ],
+                                    )
+                                  ],
+                                ),)
                               ],
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.bookmark_add_outlined)),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.play_arrow)),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "${ayat.text?.arab}",
-                      style: const TextStyle(fontSize: 25),
-                      textAlign: TextAlign.end,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "${ayat.text?.transliteration?.en}",
-                      style: const TextStyle(
-                          fontSize: 18, fontStyle: FontStyle.italic),
-                      textAlign: TextAlign.end,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "${ayat.translation?.id}",
-                      style: const TextStyle(fontSize: 16),
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(
-                      height: 30,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${ayat.text?.arab}",
+                          style: const TextStyle(fontSize: 25),
+                          textAlign: TextAlign.end,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${ayat.text?.transliteration?.en}",
+                          style: const TextStyle(
+                              fontSize: 18, fontStyle: FontStyle.italic),
+                          textAlign: TextAlign.end,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${ayat.translation?.id}",
+                          style: const TextStyle(fontSize: 16),
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
                     ),
                   ],
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         ));
   }
 }

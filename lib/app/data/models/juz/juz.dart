@@ -48,6 +48,7 @@ class Verses {
   Translation? translation;
   Audio? audio;
   Tafsir? tafsir;
+  String? kondisiAudio;
 
   Verses(
       {this.number,
@@ -55,7 +56,9 @@ class Verses {
         this.text,
         this.translation,
         this.audio,
-        this.tafsir});
+        this.tafsir,
+      this.kondisiAudio = "stop",
+      });
 
   Verses.fromJson(Map<String, dynamic> json) {
     number =
@@ -87,6 +90,10 @@ class Verses {
     if (this.audio != null) {
       data['audio'] = this.audio!.toJson();
     }
+    if (this.kondisiAudio != null) {
+      data['kondisiAudio'] = kondisiAudio;
+    }
+
     if (this.tafsir != null) {
       data['tafsir'] = this.tafsir!.toJson();
     }
