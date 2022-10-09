@@ -12,7 +12,9 @@ dependencies:
   lottie: 1.4.3
   get_storage: ^2.0.3
   just_audio: ^0.9.29
-  flutter:
+  sqflite: 2.1.0+1
+  path_provider: 2.0.11
+  flutter: 
     sdk: flutter
 
 dev_dependencies: 
@@ -21,8 +23,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
-  uses-material-design: true
-  assets:
+  assets: 
     - assets/lottie/
     - assets/images/
+  uses-material-design: true
 
