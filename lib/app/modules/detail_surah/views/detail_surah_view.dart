@@ -1,6 +1,7 @@
 import 'package:alquran/app/data/models/detail_surah/detail_surah.dart'
     as detailSurah;
 import 'package:alquran/app/data/models/surah/surah.dart';
+import 'package:alquran/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
   @override
   Widget build(BuildContext context) {
     Surah surah = Get.arguments;
+    final homeC = Get.find<HomeController>();
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -169,7 +171,37 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                       builder: (c) => Row(
                                         children: [
                                           IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Get.defaultDialog(
+                                                    title: "BOOKMARK",
+                                                    middleText:
+                                                        "Pilih jenis bookmark",
+                                                    actions: [
+                                                      ElevatedButton(
+                                                          onPressed: () async {
+                                                            await c.addBookmark(
+                                                                true,
+                                                                snapshot.data!,
+                                                                ayat!,
+                                                                index,
+                                                                "surah");
+                                                            homeC.update();
+                                                          },
+                                                          child: Text(
+                                                              "LAST READ")),
+                                                      ElevatedButton(
+                                                          onPressed: () async {
+                                                            await c.addBookmark(
+                                                                false,
+                                                                snapshot.data!,
+                                                                ayat!,
+                                                                index,
+                                                                "surah");
+                                                          },
+                                                          child:
+                                                              Text("BOOKMARK")),
+                                                    ]);
+                                              },
                                               icon: const Icon(
                                                   Icons.bookmark_add_outlined)),
                                           (ayat?.kondisiAudio == "stop")

@@ -9,7 +9,6 @@ class Juz {
 
   Juz(
       {this.juz,
-
         this.juzStartInfo,
         this.juzEndInfo,
         this.totalVerses,

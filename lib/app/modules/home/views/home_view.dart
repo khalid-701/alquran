@@ -25,23 +25,27 @@ class HomeView extends GetView<HomeController> {
           Obx(() {
             return IconButton(
                 onPressed: () => Get.toNamed(Routes.SEARCH),
-                icon: Icon(Icons.search,
-                  color: controller.isDarkMode.isTrue ? Colors.white : Colors
-                      .black,));
+                icon: Icon(
+                  Icons.search,
+                  color: controller.isDarkMode.isTrue
+                      ? Colors.white
+                      : Colors.black,
+                ));
           }),
           Obx(() {
             return IconButton(
                 onPressed: () {
                   controller.changeTheme();
-                }
-                ,
-                icon: Icon(Icons.color_lens,
-                  color: controller.isDarkMode.isTrue ? Colors.white : Colors
-                      .black,));
+                },
+                icon: Icon(
+                  Icons.color_lens,
+                  color: controller.isDarkMode.isTrue
+                      ? Colors.white
+                      : Colors.black,
+                ));
           })
         ],
       ),
-
       body: DefaultTabController(
         length: 3,
         child: Padding(
@@ -49,85 +53,201 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Salam"),
+              const Text("Assalamualaikum"),
               const Text("Akhirnya kamu melihatku"),
-              Obx(() =>
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: controller.isDarkMode.isTrue
-                            ? const LinearGradient(
-                            colors: [Colors.black12, Colors.black])
-                            : const LinearGradient(
-                            colors: [Colors.greenAccent, Colors.green])),
-                    child: Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () => Get.toNamed(Routes.LAST_READ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: -15,
-                              right: 0,
-                              child: Opacity(
-                                opacity: controller.isDarkMode.isTrue ? 1 : 0.6,
-                                child: SizedBox(
-                                    width: 150,
-                                    height: 150,
-                                    child: Image.asset(
-                                      "assets/images/quran.png",
-                                      fit: BoxFit.contain,
-                                    )),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: const [
-                                      Icon(
-                                        Icons.menu_book_rounded,
-                                        color: Colors.white,
+              GetBuilder<HomeController>(builder: (c) {
+                return FutureBuilder<Map<String, dynamic>?>(
+                  future: c.getLastRead(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Obx(() {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: controller.isDarkMode.isTrue
+                                  ? const LinearGradient(
+                                  colors: [Colors.black12, Colors.black])
+                                  : const LinearGradient(colors: [
+                                Colors.greenAccent,
+                                Colors.green
+                              ])),
+                          child: Material(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(20),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: -15,
+                                  right: 0,
+                                  child: Opacity(
+                                    opacity:
+                                    controller.isDarkMode.isTrue ? 1 : 0.6,
+                                    child: SizedBox(
+                                        width: 150,
+                                        height: 150,
+                                        child: Image.asset(
+                                          "assets/images/quran.png",
+                                          fit: BoxFit.contain,
+                                        )),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.menu_book_rounded,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "Terakhir dibaca",
+                                            style:
+                                            TextStyle(color: Colors.white),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 10,
+                                      const SizedBox(
+                                        height: 15,
                                       ),
-                                      Text(
-                                        "Terakhir dibaca",
-                                        style: TextStyle(color: Colors.white),
+                                      const Text("Loading...",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20)),
+                                      const SizedBox(
+                                        height: 15,
                                       ),
+                                      const Text("",
+                                          style: TextStyle(color: Colors.white))
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  const Text("Al-Fatihah",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20)),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  const Text("Juz 1 | Ayat 2",
-                                      style: TextStyle(color: Colors.white))
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                        );
+                      });
+                    }
+
+                    Map<String, dynamic>? lastRead = snapshot.data;
+                    return Obx(() {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 15),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: controller.isDarkMode.isTrue
+                                ? const LinearGradient(
+                                colors: [Colors.black12, Colors.black])
+                                : const LinearGradient(colors: [
+                              Colors.greenAccent,
+                              Colors.green
+                            ])),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onLongPress: () {
+                              if(lastRead != null) {
+                                Get.defaultDialog(
+                                  title: "Hapus Terakhir Dibaca",
+                                  middleText: "Apakah kamu yakin ingin menghapusnya ?",
+                                  actions: [
+                                    OutlinedButton(onPressed: () {
+                                      Get.back();
+                                    }, child: Text("BATAL")),
+                                    ElevatedButton(onPressed: () {
+
+                                      c.deleteBookmark(
+                                          lastRead['id'].toString());
+
+                                    }, child: Text("HAPUS")),
+                                  ]
+                              );
+                              }
+                            },
+                            onTap: () => Get.toNamed(Routes.LAST_READ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: -15,
+                                  right: 0,
+                                  child: Opacity(
+                                    opacity:
+                                    controller.isDarkMode.isTrue ? 1 : 0.6,
+                                    child: SizedBox(
+                                        width: 150,
+                                        height: 150,
+                                        child: Image.asset(
+                                          "assets/images/quran.png",
+                                          fit: BoxFit.contain,
+                                        )),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.menu_book_rounded,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "Terakhir dibaca",
+                                            style:
+                                            TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+
+                                      Text(lastRead != null ? lastRead['surah']
+                                          .toString()
+                                          .replaceAll("+", "'") : "",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20)),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Text(lastRead == null
+                                          ? "Belum ada yang dibaca"
+                                          : "Juz ${lastRead['juz']} | Ayat ${lastRead['ayat']}",
+                                          style: TextStyle(color: Colors.white))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )),
+                      );
+                    });
+                  },
+                );
+              }),
               Obx(() {
                 return TabBar(
                     indicatorColor: Colors.greenAccent,
-                    labelColor: controller.isDarkMode.isTrue ? Colors
-                        .greenAccent : Colors
-                        .black,
+                    labelColor: controller.isDarkMode.isTrue
+                        ? Colors.greenAccent
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     tabs: const [
                       Tab(
@@ -171,10 +291,10 @@ class HomeView extends GetView<HomeController> {
                                       width: 35,
                                       decoration: BoxDecoration(
                                           image: DecorationImage(
-                                              image: AssetImage(
-                                                  controller.isDarkMode.isTrue
-                                                      ? "assets/images/list_dark.png"
-                                                      : "assets/images/list2.png"))),
+                                              image: AssetImage(controller
+                                                  .isDarkMode.isTrue
+                                                  ? "assets/images/list_dark.png"
+                                                  : "assets/images/list2.png"))),
                                       child: Center(
                                         child: Text(surah.number.toString()),
                                       ),
@@ -207,24 +327,29 @@ class HomeView extends GetView<HomeController> {
                             itemBuilder: (context, index) {
                               juz.Juz detailJuz = snapshot.data![index];
 
-                              String nameStart = detailJuz.juzStartInfo?.split(" - ").first ?? "";
-                              String nameEnd = detailJuz.juzEndInfo?.split(" - ").first ?? "";
+                              String nameStart =
+                                  detailJuz.juzStartInfo
+                                      ?.split(" - ")
+                                      .first ?? "";
+                              String nameEnd =
+                                  detailJuz.juzEndInfo
+                                      ?.split(" - ")
+                                      .first ?? "";
 
                               List<Surah> rawAllSurahInJuz = [];
                               List<Surah> allSurahInJuz = [];
-
-                              print("${detailJuz.verses?[index].kondisiAudio}")
-;
-                              for(Surah item in controller.getSurah) {
+                              for (Surah item in controller.getSurah) {
                                 rawAllSurahInJuz.add(item);
-                                if(item.name!.transliteration!.id == nameEnd) {
+                                if (item.name!.transliteration!.id == nameEnd) {
                                   break;
                                 }
                               }
 
-                              for(Surah item in rawAllSurahInJuz.reversed.toList()) {
+                              for (Surah item
+                              in rawAllSurahInJuz.reversed.toList()) {
                                 allSurahInJuz.add(item);
-                                if(item.name!.transliteration!.id == nameStart) {
+                                if (item.name!.transliteration!.id ==
+                                    nameStart) {
                                   break;
                                 }
                               }
@@ -233,8 +358,8 @@ class HomeView extends GetView<HomeController> {
                                 return ListTile(
                                   onTap: () {
                                     Get.toNamed(Routes.DETAIL_JUZ, arguments: {
-                                      "juz" : detailJuz,
-                                      "surah" : allSurahInJuz.reversed.toList(),
+                                      "juz": detailJuz,
+                                      "surah": allSurahInJuz.reversed.toList(),
                                     });
                                   },
                                   leading: Container(
@@ -242,8 +367,7 @@ class HomeView extends GetView<HomeController> {
                                     width: 35,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image:
-                                            AssetImage(
+                                            image: AssetImage(
                                                 controller.isDarkMode.isTrue
                                                     ? "assets/images/list_dark.png"
                                                     : "assets/images/list2.png"))),
@@ -254,11 +378,20 @@ class HomeView extends GetView<HomeController> {
                                   title: Text("Juz ${index + 1}"),
                                   isThreeLine: true,
                                   subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text("Mulai dari ${detailJuz.juzStartInfo}", style: const TextStyle(color: Colors.grey),),
-                                      Text("Sampai ${detailJuz.juzEndInfo}", style:const TextStyle(color: Colors.grey),),
+                                      Text(
+                                        "Mulai dari ${detailJuz.juzStartInfo}",
+                                        style: const TextStyle(
+                                            color: Colors.grey),
+                                      ),
+                                      Text(
+                                        "Sampai ${detailJuz.juzEndInfo}",
+                                        style: const TextStyle(
+                                            color: Colors.grey),
+                                      ),
                                     ],
                                   ),
                                 );
@@ -267,16 +400,71 @@ class HomeView extends GetView<HomeController> {
                           );
                         },
                       ),
-                      const Center(
-                        child: Text("Page 3"),
-                      ),
+                      GetBuilder<HomeController>(
+                        builder: (c) {
+                          return FutureBuilder<List<Map<String, dynamic>>>(
+                            future: controller.getBookmark(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+
+                              if (snapshot.data?.length == 0) {
+                                return const Center(
+                                  child: Text("Belum ada data"),
+                                );
+                              }
+
+                              return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  Map<String, dynamic> data = snapshot
+                                      .data![index];
+                                  return Obx(() {
+                                    return ListTile(
+                                      onTap: () {},
+                                      leading: Container(
+                                        height: 35,
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(controller
+                                                    .isDarkMode.isTrue
+                                                    ? "assets/images/list_dark.png"
+                                                    : "assets/images/list2.png"))),
+                                        child: Center(
+                                          child: Text("${index + 1}"),
+                                        ),
+                                      ),
+                                      title: Text(data["surah"]
+                                          .toString()
+                                          .replaceAll("+", "'")),
+                                      subtitle: Text(
+                                          "Ayat ${data["ayat"]} | via : ${data["via"]}"),
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                          c.deleteBookmark(
+                                              data['id'].toString());
+                                        },
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
+                          );
+                        },
+                      )
                     ],
                   ))
             ],
           ),
         ),
       ),
-
     );
   }
 }

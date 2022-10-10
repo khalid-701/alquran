@@ -1,3 +1,4 @@
+import 'package:alquran/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ class DetailJuzView extends GetView<DetailJuzController> {
   Widget build(BuildContext context) {
     final juz.Juz detailJuz = Get.arguments['juz'];
     final List<Surah> allSurahInJuz = Get.arguments['surah'];
+    final homeC =  Get.find<HomeController>();
     return Scaffold(
         appBar: AppBar(
           title: Text('JUZ ${detailJuz.juz}',
@@ -39,7 +41,7 @@ class DetailJuzView extends GetView<DetailJuzController> {
                   );
                 }
                 juz.Verses ayat = detailJuz.verses![index];
-         detailJuz.verses?[index].kondisiAudio = "stop";
+                detailJuz.verses?[index].kondisiAudio = "stop";
 
                 if (index != 0) {
                   if (ayat.number?.inSurah == 1) {
@@ -48,68 +50,79 @@ class DetailJuzView extends GetView<DetailJuzController> {
                 }
                 return Column(
                   children: [
-                     if (ayat.number?.inSurah == 1)
-                       Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.defaultDialog(
-                              contentPadding: const EdgeInsets.all(10),
-                              title: "Tafsir ${allSurahInJuz[controller.index].name?.transliteration?.id}",
-                              content: Text(
-                                allSurahInJuz.first.tafsir?.id ?? "Tidak ada tafsir",
-                                textAlign: TextAlign.justify,
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
-                              )),
-                          child: Container(
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: Get.isDarkMode ? const LinearGradient(
-                                    colors: [Colors.black12, Colors.black]) : const LinearGradient(
-                                    colors: [Colors.greenAccent, Colors.green])),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "${allSurahInJuz[controller.index].name?.transliteration?.id?.toUpperCase()}",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                        Get.isDarkMode ? Colors.white : Colors.black),
-                                  ),
-                                  Text(
-                                    "( ${allSurahInJuz[controller.index].name?.translation?.id?.toUpperCase()} )",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                        Get.isDarkMode ? Colors.white : Colors.black),
-                                  ),
-
-                                ],
+                    if (ayat.number?.inSurah == 1)
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.defaultDialog(
+                                contentPadding: const EdgeInsets.all(10),
+                                title:
+                                    "Tafsir ${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                                content: Text(
+                                  allSurahInJuz.first.tafsir?.id ??
+                                      "Tidak ada tafsir",
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                )),
+                            child: Container(
+                              width: Get.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: Get.isDarkMode
+                                      ? const LinearGradient(colors: [
+                                          Colors.black12,
+                                          Colors.black
+                                        ])
+                                      : const LinearGradient(colors: [
+                                          Colors.greenAccent,
+                                          Colors.green
+                                        ])),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "${allSurahInJuz[controller.index].name?.transliteration?.id?.toUpperCase()}",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Get.isDarkMode
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                    Text(
+                                      "( ${allSurahInJuz[controller.index].name?.translation?.id?.toUpperCase()} )",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Get.isDarkMode
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color:
-                                  Get.isDarkMode ? Colors.black38 : Colors.grey[100]),
+                              color: Get.isDarkMode
+                                  ? Colors.black38
+                                  : Colors.grey[100]),
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -129,59 +142,88 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                         child: Text("${ayat.number?.inSurah}"),
                                       ),
                                     ),
-
-                                      Text(
-                                        "${allSurahInJuz[controller.index].name?.transliteration?.id}",
-                                        style: const TextStyle(
-                                            fontStyle: FontStyle.italic, fontSize: 16),
-                                      )
-                                  ],
-                                ),
-                                GetBuilder<DetailJuzController>(builder: (c) => Row(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                            title: "BOOKMARK",
-                                            middleText: "Pilih jenis bookmark",
-                                            actions: [
-                                            ElevatedButton(onPressed: (){}, child: Text("LAST READ")),
-                                            ElevatedButton(onPressed: (){}, child: Text("BOOKMARK")),
-                                            ]
-                                          );
-                                        },
-                                        icon: const Icon(
-                                            Icons.bookmark_add_outlined)),
-                                    (ayat.kondisiAudio == "stop") ? IconButton(
-                                        onPressed: () {
-                                          c.playAudio(ayat);
-                                        },
-                                        icon: const Icon(
-                                            Icons.play_arrow)) :
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        (ayat.kondisiAudio == "playing") ? IconButton(
-                                            onPressed: () {
-                                              c.pauseAudio(ayat);
-                                            },
-                                            icon: const Icon(
-                                                Icons.pause)) : IconButton(
-                                            onPressed: () {
-                                              c.resumeAudio(ayat);
-                                            },
-                                            icon: const Icon(
-                                                Icons.play_arrow)),
-                                        IconButton(
-                                            onPressed: () {
-                                              c.stopAudio(ayat);
-                                            },
-                                            icon: const Icon(
-                                                Icons.stop))
-                                      ],
+                                    Text(
+                                      "${allSurahInJuz[controller.index].name?.transliteration?.id}",
+                                      style: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 16),
                                     )
                                   ],
-                                ),)
+                                ),
+                                GetBuilder<DetailJuzController>(
+                                  builder: (c) => Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            // print("index_nih");
+                                            // print(index);
+                                            // print(allSurahInJuz);
+                                            Get.defaultDialog(
+                                                title: "BOOKMARK",
+                                                middleText:
+                                                    "Tandai sebagai",
+                                                actions: [
+                                                  ElevatedButton(
+                                                      onPressed: () async {
+                                                       await c.addBookmark(
+                                                            true,
+                                                            "${allSurahInJuz[c.index].name?.transliteration?.id}",
+                                                            ayat,
+                                                            c.index,
+                                                            "juz");
+                                                        homeC.update();
+                                                      },
+                                                      child: Text("TERAKHIR DIBACA")),
+                                                  ElevatedButton(
+                                                      onPressed: ()async {
+                                                        await c.addBookmark(
+                                                            false,
+                                                            "${allSurahInJuz[c.index].name?.transliteration?.id}",
+                                                            ayat,
+                                                            c.index,
+                                                            "juz");
+                                                        homeC.update();
+
+                                                      },
+                                                      child: Text("BOOKMARK")),
+                                                ]);
+                                          },
+                                          icon: const Icon(
+                                              Icons.bookmark_add_outlined)),
+                                      (ayat.kondisiAudio == "stop")
+                                          ? IconButton(
+                                              onPressed: () {
+                                                c.playAudio(ayat);
+                                              },
+                                              icon:
+                                                  const Icon(Icons.play_arrow))
+                                          : Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                (ayat.kondisiAudio == "playing")
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          c.pauseAudio(ayat);
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.pause))
+                                                    : IconButton(
+                                                        onPressed: () {
+                                                          c.resumeAudio(ayat);
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.play_arrow)),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      c.stopAudio(ayat);
+                                                    },
+                                                    icon:
+                                                        const Icon(Icons.stop))
+                                              ],
+                                            )
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
