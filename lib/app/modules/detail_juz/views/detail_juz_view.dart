@@ -14,7 +14,7 @@ class DetailJuzView extends GetView<DetailJuzController> {
   Widget build(BuildContext context) {
     final juz.Juz detailJuz = Get.arguments['juz'];
     final List<Surah> allSurahInJuz = Get.arguments['surah'];
-    final homeC =  Get.find<HomeController>();
+    final homeC = Get.find<HomeController>();
     return Scaffold(
         appBar: AppBar(
           title: Text('JUZ ${detailJuz.juz}',
@@ -160,30 +160,39 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                             // print(allSurahInJuz);
                                             Get.defaultDialog(
                                                 title: "BOOKMARK",
-                                                middleText:
-                                                    "Tandai sebagai",
+                                                middleText: "Tandai sebagai",
                                                 actions: [
                                                   ElevatedButton(
                                                       onPressed: () async {
-                                                       await c.addBookmark(
+                                                        await c.addBookmark(
                                                             true,
                                                             "${allSurahInJuz[c.index].name?.transliteration?.id}",
+                                                            int.parse(
+                                                                allSurahInJuz[
+                                                                        c.index]
+                                                                    .number
+                                                                    .toString()),
                                                             ayat,
                                                             c.index,
                                                             "juz");
                                                         homeC.update();
                                                       },
-                                                      child: Text("TERAKHIR DIBACA")),
+                                                      child: Text(
+                                                          "TERAKHIR DIBACA")),
                                                   ElevatedButton(
-                                                      onPressed: ()async {
+                                                      onPressed: () async {
                                                         await c.addBookmark(
                                                             false,
                                                             "${allSurahInJuz[c.index].name?.transliteration?.id}",
+                                                            int.parse(
+                                                                allSurahInJuz[
+                                                                        index]
+                                                                    .number
+                                                                    .toString()),
                                                             ayat,
                                                             c.index,
                                                             "juz");
                                                         homeC.update();
-
                                                       },
                                                       child: Text("BOOKMARK")),
                                                 ]);

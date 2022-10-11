@@ -1,6 +1,5 @@
-import 'package:alquran/app/data/models/surah/surah.dart';
+
 import 'package:alquran/app/db/bookmarks.dart';
-import 'package:alquran/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,8 +12,7 @@ class DetailJuzController extends GetxController {
   Verses? lastVerse;
   DatabaseManager database = DatabaseManager.instance;
 
-  Future<void> addBookmark(
-      bool lastRead, String surah, Verses ayat, int indexAyat, String via) async {
+  Future<void> addBookmark(bool lastRead, String surah, int numberSurah, Verses ayat, int indexAyat, String via) async {
     Database db = await database.db;
     bool flagExist = false;
 
@@ -22,9 +20,9 @@ class DetailJuzController extends GetxController {
       await db.delete("bookmark", where: "last_read = 1");
     } else {
       List checkData = await db.query("bookmark",
-          columns: ["surah", "ayat", "juz", "via", "index_ayat", "last_read"],
+          columns: ["surah", "number_surah", "ayat", "juz", "via", "index_ayat", "last_read"],
           where:
-          "surah = '${surah.replaceAll("'", "+")}' and ayat = ${ayat.number!.inSurah} and juz = ${ayat.meta!.juz} and via = '$via' and index_ayat = $indexAyat and last_read = 0");
+          "surah = '${surah.replaceAll("'", "+")}' and number_surah = $numberSurah and ayat = ${ayat.number!.inSurah} and juz = ${ayat.meta!.juz} and via = '$via' and index_ayat = $indexAyat and last_read = 0");
       if (checkData.isNotEmpty) {
         flagExist = true;
       }
@@ -35,6 +33,7 @@ class DetailJuzController extends GetxController {
 
       await db.insert("bookmark", {
         "surah": "${surah.replaceAll("'", "+")}",
+        "number_surah" : numberSurah,
         "ayat": ayat.number!.inSurah,
         "juz": ayat.meta!.juz,
         "via": "$via",

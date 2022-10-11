@@ -2,34 +2,39 @@ import 'dart:convert';
 
 import 'package:alquran/app/data/models/detail_surah/detail_surah.dart';
 import 'package:alquran/app/db/bookmarks.dart';
-import 'package:alquran/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DetailSurahController extends GetxController {
-  // RxString kodisiAudio = "stop".obs;
+  AutoScrollController scrollC = AutoScrollController();
+
   final player = AudioPlayer();
   Verse? lastVerse;
   DatabaseManager database = DatabaseManager.instance;
 
-
-  Future<void> addBookmark(
-      bool lastRead, DetailSurah surah, Verse ayat, int indexAyat, String via) async {
+  Future<void> addBookmark(bool lastRead, DetailSurah surah, Verse ayat,
+      int indexAyat, String via) async {
     Database db = await database.db;
     bool flagExist = false;
-    String? newSurah = surah.name!.transliteration!.id;
-
-    newSurah?.replaceAll("'", "\\'");
 
     if (lastRead == true) {
       await db.delete("bookmark", where: "last_read = 1");
     } else {
       List checkData = await db.query("bookmark",
-          columns: ["surah", "ayat", "juz", "via", "index_ayat", "last_read"],
+          columns: [
+            "surah",
+            "number_surah",
+            "ayat",
+            "juz",
+            "via",
+            "index_ayat",
+            "last_read"
+          ],
           where:
-              "surah = '${surah.name!.transliteration!.id?.replaceAll("'", "+")}' and ayat = ${ayat.number!.inSurah} and juz = ${ayat.meta!.juz} and via = '$via' and index_ayat = $indexAyat and last_read = 0");
+              "surah = '${surah.name!.transliteration!.id?.replaceAll("'", "+")}' and number_surah = ${surah.number} and ayat = ${ayat.number!.inSurah} and juz = ${ayat.meta!.juz} and via = '$via' and index_ayat = $indexAyat and last_read = 0");
       if (checkData.isNotEmpty) {
         flagExist = true;
       }
@@ -40,6 +45,7 @@ class DetailSurahController extends GetxController {
 
       await db.insert("bookmark", {
         "surah": "${surah.name!.transliteration!.id?.replaceAll("'", "+")}",
+        "number_surah": surah.number,
         "ayat": ayat.number!.inSurah,
         "juz": ayat.meta!.juz,
         "via": "surah",
@@ -54,7 +60,6 @@ class DetailSurahController extends GetxController {
     }
     var data = await db.query("bookmark");
     print(data);
-
   }
 
   Future<DetailSurah> detailSurah(String id) async {

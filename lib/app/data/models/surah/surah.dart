@@ -1,4 +1,3 @@
-
 //https://api.quran.gading.dev/surah
 
 import 'dart:convert';
@@ -9,12 +8,12 @@ String surahToJson(Surah data) => json.encode(data.toJson());
 
 class Surah {
   Surah({
-     this.number,
-     this.sequence,
-     this.numberOfVerses,
-     this.name,
-     this.revelation,
-     this.tafsir,
+    this.number,
+    this.sequence,
+    this.numberOfVerses,
+    this.name,
+    this.revelation,
+    this.tafsir,
   });
 
   int? number;
@@ -45,10 +44,10 @@ class Surah {
 
 class Name {
   Name({
-     this.short,
-     this.long,
-     this.transliteration,
-     this.translation,
+    this.short,
+    this.long,
+    this.transliteration,
+    this.translation,
   });
 
   String? short;
@@ -73,8 +72,8 @@ class Name {
 
 class Translation {
   Translation({
-     this.en,
-     this.id,
+    this.en,
+    this.id,
   });
 
   String? en;
@@ -93,9 +92,9 @@ class Translation {
 
 class Revelation {
   Revelation({
-     this.arab,
-     this.en,
-     this.id,
+    this.arab,
+    this.en,
+    this.id,
   });
 
   String? arab;
@@ -130,8 +129,6 @@ class Tafsir {
         "id": id,
       };
 }
-
-
 
 /////////////////
 

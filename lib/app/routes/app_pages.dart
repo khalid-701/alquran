@@ -35,7 +35,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_SURAH,
-      page: () => const DetailSurahView(),
+      page: () => DetailSurahView(),
       binding: DetailSurahBinding(),
     ),
     GetPage(
@@ -55,7 +55,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_JUZ,
-      page: () =>  DetailJuzView(),
+      page: () => DetailJuzView(),
       binding: DetailJuzBinding(),
     ),
   ];
