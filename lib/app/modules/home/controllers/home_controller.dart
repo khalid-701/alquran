@@ -39,7 +39,7 @@ class HomeController extends GetxController {
   Future<Map<String, dynamic>?> getLastRead() async {
     Database db = await database.db;
     List<Map<String, dynamic>> dataLastRead =
-        await db.query("bookmark", where: "last_read = 1", orderBy: "surah");
+        await db.query("bookmark", where: "last_read = 1", orderBy: "surah, via, ayat");
 
     if (dataLastRead.isEmpty) {
       return null;

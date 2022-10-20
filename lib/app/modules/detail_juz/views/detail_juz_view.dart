@@ -43,6 +43,8 @@ class DetailJuzView extends GetView<DetailJuzController> {
                 juz.Verses ayat = detailJuz.verses![index];
                 detailJuz.verses?[index].kondisiAudio = "stop";
 
+                print(ayat.text?.transliteration?.en);
+
                 if (index != 0) {
                   if (ayat.number?.inSurah == 1) {
                     controller.index++;
@@ -155,9 +157,9 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            // print("index_nih");
-                                            // print(index);
-                                            // print(allSurahInJuz);
+                                            print("index_nih");
+                                            print(index);
+                                            print(allSurahInJuz[c.index].name?.transliteration?.id.toString());
                                             Get.defaultDialog(
                                                 title: "BOOKMARK",
                                                 middleText: "Tandai sebagai",
